@@ -6,14 +6,14 @@ import (
 	"fmt"
 )
 
-const ARRAY_SIZE = 30000
+const TAPE_SIZE = 30000
 
 func Run(code string) error {
 	if Validate(code) == false {
 		return errors.New("Code was not valid brainfuck.")
 	}
 
-	array := make([]byte, ARRAY_SIZE, ARRAY_SIZE)
+	tape := make([]byte, TAPE_SIZE, TAPE_SIZE)
 
 	index := 0
 
@@ -32,20 +32,20 @@ func Run(code string) error {
 		case '<':
 			index--
 		case '+':
-			array[index]++
+			tape[index]++
 		case '-':
-			array[index]--
+			tape[index]--
 		case '.':
-			fmt.Printf("%c", array[index])
+			fmt.Printf("%c", tape[index])
 		case ',':
 			var input string
 			n, err := fmt.Scan(input)
 
 			if err != nil && n >= 1 {
-				array[index] = input[0]
+				tape[index] = input[0]
 			}
 		case '[':
-			if array[index] == 0 {
+			if tape[index] == 0 {
 				loop = 1
 
 				for loop > 0 {
