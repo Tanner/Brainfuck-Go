@@ -1,35 +1,35 @@
 package main
 
 import (
-  "fmt"
-  "brainfuck"
-  "flag"
-  "io/ioutil"
+	"brainfuck"
+	"flag"
+	"fmt"
+	"io/ioutil"
 )
 
 func main() {
-  var path = flag.String("filename", "brainfuck.bf", "Name of file to run")
-  var validate = flag.Bool("validate", false, "Validates instead of running")
+	var path = flag.String("filename", "brainfuck.bf", "Name of file to run")
+	var validate = flag.Bool("validate", false, "Validates instead of running")
 
-  flag.Parse();
+	flag.Parse()
 
-  content, err := ioutil.ReadFile(*path)
+	content, err := ioutil.ReadFile(*path)
 
-  if err != nil {
-    fmt.Println(err)
+	if err != nil {
+		fmt.Println(err)
 
-    return
-  }
+		return
+	}
 
-  code := string(content)
+	code := string(content)
 
-  if (*validate) {
-    if brainfuck.Validate(code) {
-      fmt.Println("Valid code.")
-    } else {
-      fmt.Println("Non-valid code.")
-    }
-  } else {
-    brainfuck.Run(code)
-  }
+	if *validate {
+		if brainfuck.Validate(code) {
+			fmt.Println("Valid code.")
+		} else {
+			fmt.Println("Non-valid code.")
+		}
+	} else {
+		brainfuck.Run(code)
+	}
 }
