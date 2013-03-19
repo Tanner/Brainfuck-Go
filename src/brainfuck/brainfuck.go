@@ -4,11 +4,12 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"io"
 )
 
 const TAPE_SIZE = 30000
 
-func Run(code string) error {
+func Run(code string, output io.Writer, reader io.Reader) error {
 	if Validate(code) == false {
 		return errors.New("Code was not valid brainfuck.")
 	}
@@ -36,10 +37,10 @@ func Run(code string) error {
 		case '-':
 			tape[index]--
 		case '.':
-			fmt.Printf("%c", tape[index])
+			fmt.Fprintf(output, "%c", tape[index])
 		case ',':
 			var input string
-			n, err := fmt.Scan(input)
+			n, err := fmt.Fscan(reader, input)
 
 			if err != nil && n >= 1 {
 				tape[index] = input[0]
