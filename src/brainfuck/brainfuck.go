@@ -6,12 +6,14 @@ import (
 	"fmt"
 )
 
+const ARRAY_SIZE = 30000
+
 func Run(code string) error {
 	if Validate(code) == false {
 		return errors.New("Code was not valid brainfuck.")
 	}
 
-	array := make([]byte, 30000, 30000)
+	array := make([]byte, ARRAY_SIZE, ARRAY_SIZE)
 
 	index := 0
 
