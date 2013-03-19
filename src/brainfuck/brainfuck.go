@@ -2,10 +2,13 @@ package brainfuck
 
 import (
   "bytes"
+  "errors"
 )
 
 func Run(code string) error {
-  // array := [30000]byte
+  if Validate(code) == false {
+    return errors.New("Code was not valid brainfuck.")
+  }
 
   return nil
 }
