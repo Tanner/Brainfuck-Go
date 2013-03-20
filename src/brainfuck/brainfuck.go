@@ -39,11 +39,14 @@ func Run(code string, output io.Writer, reader io.Reader) error {
 		case '.':
 			fmt.Fprintf(output, "%c", tape[index])
 		case ',':
-			var input string
-			n, err := fmt.Fscan(reader, input)
+			var input byte
+			
+			n, err := fmt.Fscanf(reader, "%d", &input)
 
-			if err != nil && n >= 1 {
-				tape[index] = input[0]
+			if err == nil && n >= 1 {
+				tape[index] = input
+			} else {
+				return err
 			}
 		case '[':
 			if tape[index] == 0 {
