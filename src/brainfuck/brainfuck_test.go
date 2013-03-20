@@ -1,6 +1,10 @@
 package brainfuck
 
-import "testing"
+import (
+	"testing"
+	"strings"
+	"bytes"
+)
 
 func TestValidation(t *testing.T) {
 	if !Validate("><+-.,[]") {
@@ -18,4 +22,36 @@ func TestValidation(t *testing.T) {
 	if Validate("><+-.,]") || Validate("><+-.,[]]") {
 		t.Error("Expected unmatched ']' token to fail validation")
 	}
+}
+
+func TestRunning(t *testing.T) {
+	helper := func(code string, in string, correctOutput string) {
+		output := new(bytes.Buffer)
+		input := strings.NewReader(in)
+
+		err := Run(code, output, input)
+
+		if err == nil {
+			if (output.String() != correctOutput) {
+				t.Errorf("'%s' want '%s'", output, correctOutput)
+			}
+		} else {
+			t.Error(err)
+		}
+	}
+
+	// Test "Hello World!"
+	helper("++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.", "", "Hello World!")
+
+	// Test incrementation
+	helper("++++++++++++++++++++++++++++++++++++++++++++++++.", "", "0")
+
+	// Test subtraction
+	helper("+++++++++++++++++++++++++++++++++++++++++++++++++-.", "", "0")
+
+	// Test looping
+	helper("+++++[>++++++++++<-]>++.", "", "4")
+
+	// Test input
+	helper(",.", "57", "9")
 }
