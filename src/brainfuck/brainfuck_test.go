@@ -1,9 +1,9 @@
 package brainfuck
 
 import (
-	"testing"
-	"strings"
 	"bytes"
+	"strings"
+	"testing"
 )
 
 func TestValidation(t *testing.T) {
@@ -32,7 +32,7 @@ func TestRunning(t *testing.T) {
 		err := Run(code, output, input)
 
 		if err == nil {
-			if (output.String() != correctOutput) {
+			if output.String() != correctOutput {
 				t.Errorf("'%s' want '%s'", output, correctOutput)
 			}
 		} else {
