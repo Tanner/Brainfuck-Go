@@ -1,3 +1,5 @@
+// Package brainfuck impements a simple library from the language Brainfuck.
+// http://en.wikipedia.org/wiki/Brainfuck
 package brainfuck
 
 import (
@@ -9,6 +11,7 @@ import (
 
 const TAPE_SIZE = 30000
 
+// Run the specified brainfuck code using the given input string for inputs and returns, if successful.
 func Run(code string, output io.Writer, reader io.Reader) error {
 	if Validate(code) == false {
 		return errors.New("Code was not valid brainfuck.")
@@ -40,7 +43,7 @@ func Run(code string, output io.Writer, reader io.Reader) error {
 			fmt.Fprintf(output, "%c", tape[index])
 		case ',':
 			var input byte
-			
+
 			n, err := fmt.Fscanf(reader, "%d", &input)
 
 			if err == nil && n >= 1 {
@@ -87,6 +90,7 @@ func Run(code string, output io.Writer, reader io.Reader) error {
 	return nil
 }
 
+// Validate the given code string and returns a boolean value corresponding to the validity of the code.
 func Validate(code string) bool {
 	loop_count := 0
 
