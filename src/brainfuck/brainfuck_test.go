@@ -29,7 +29,7 @@ func TestRunning(t *testing.T) {
 		output := new(bytes.Buffer)
 		input := strings.NewReader(in)
 
-		err := Run(code, output, input)
+		err := Run(code, output, input, 10000)
 
 		if err == nil {
 			if output.String() != correctOutput {
@@ -59,9 +59,19 @@ func TestRunning(t *testing.T) {
 	output := new(bytes.Buffer)
 	input := strings.NewReader("")
 
-	err := Run("<-", output, input)
+	err := Run("<-", output, input, 10)
 
 	if err == nil {
 		t.Error("Expected an error about the index for the tape being out of bounds")
+	}
+
+	// Test exceeding cycles
+	output.Reset()
+	input = strings.NewReader("")
+
+	err = Run("-[-]", output, input, 10)
+
+	if err == nil {
+		t.Error("Expected an error about max cycles being exceeded")
 	}
 }
