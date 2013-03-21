@@ -36,8 +36,16 @@ func Run(code string, output io.Writer, reader io.Reader) error {
 		case '<':
 			index--
 		case '+':
+			if index < 0 || index > TAPE_SIZE - 1 {
+				return errors.New("Index for tape has gone out of bounds.")
+			}
+
 			tape[index]++
 		case '-':
+			if index < 0 || index > TAPE_SIZE - 1 {
+				return errors.New("Index for tape has gone out of bounds.")
+			}
+
 			tape[index]--
 		case '.':
 			fmt.Fprintf(output, "%c", tape[index])

@@ -54,4 +54,14 @@ func TestRunning(t *testing.T) {
 
 	// Test input
 	helper(",.", "57", "9")
+
+	// Test negative index on tape
+	output := new(bytes.Buffer)
+	input := strings.NewReader("")
+
+	err := Run("<-", output, input)
+
+	if err == nil {
+		t.Error("Expected an error about the index for the tape being out of bounds")
+	}
 }
