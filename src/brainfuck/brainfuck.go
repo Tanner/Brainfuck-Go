@@ -56,8 +56,16 @@ func Run(code string, output io.Writer, reader io.Reader, maxCycles int) error {
 
 			tape[index]--
 		case '.':
+			if index < 0 || index > TAPE_SIZE - 1 {
+				return errors.New("Index for tape has gone out of bounds.")
+			}
+
 			fmt.Fprintf(output, "%c", tape[index])
 		case ',':
+			if index < 0 || index > TAPE_SIZE - 1 {
+				return errors.New("Index for tape has gone out of bounds.")
+			}
+
 			var input byte
 
 			n, err := fmt.Fscanf(reader, "%d", &input)
@@ -68,6 +76,10 @@ func Run(code string, output io.Writer, reader io.Reader, maxCycles int) error {
 				return err
 			}
 		case '[':
+			if index < 0 || index > TAPE_SIZE - 1 {
+				return errors.New("Index for tape has gone out of bounds.")
+			}
+
 			if tape[index] == 0 {
 				loop = 1
 
